@@ -3,6 +3,7 @@ import bpy
 import tempfile
 from bpy.types import Context
 import requests
+import os
 
 # Web url for text to texture
 tttUrl = "https://api.meshy.ai/v1/text-to-texture"
@@ -33,8 +34,9 @@ class SendSubmitRequest(bpy.types.Operator):
             self.report(type={'ERROR'},message = "Style prompt can not be empty!")
             return {"FINISHED"}
         
-        fp = tempfile.NamedTemporaryFile(suffix=".glb")
-        bpy.ops.export_scene.gltf(filepath=fp.name, use_selection=True)
+        temp_dir = tempfile.TemporaryDirectory()
+        temp_file_path = os.path.join(temp_dir.name, "temp.glb")
+        bpy.ops.export_scene.gltf(filepath=temp_file_path, use_selection=True)        
 
         postData = {
             "object_prompt": context.scene.ttt_object_prompt,
@@ -53,13 +55,14 @@ class SendSubmitRequest(bpy.types.Operator):
             files={
                 "model_file": (
                     context.scene.ttt_task_name + ".glb",
-                    open(fp.name, "rb"),
+                    open(temp_file_path, "rb"),
                 )
             },
             headers=headers,
             data=postData,
         )
-        fp.close()
+
+        temp_dir.cleanup()
         
         response.raise_for_status()
         self.report({'INFO'},response.text)
@@ -98,10 +101,12 @@ class DownloadModel(bpy.types.Operator):
 
     def execute(self, context):
         req = requests.get(self.downloadPath)
-        fp = tempfile.NamedTemporaryFile(suffix=".glb")
-        fp.write(req.content)
-        bpy.ops.import_scene.gltf(filepath=fp.name)
-        fp.close()
+        temp_dir = tempfile.TemporaryDirectory()
+        temp_file_path = os.path.join(temp_dir.name, "temp.glb")
+        with open(temp_file_path, "wb") as f:
+            f.write(req.content)
+        bpy.ops.import_scene.gltf(filepath=temp_file_path)
+        temp_dir.cleanup()
         bpy.context.active_object.scale = (1,1,1)
         bpy.context.active_object.location = (0,0,0)
         bpy.ops.object.origin_set(type="ORIGIN_GEOMETRY")
