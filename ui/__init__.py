@@ -1,10 +1,11 @@
 import bpy
-from . import MeshyTextToTexture
+from . import panels
 from . import Operators
 
 # The classes while will be registered
 classes = (
-    MeshyTextToTexture.MeshyTextToTexture,
+    panels.MeshyTextToTexture,
+    panels.MeshyTextToModel,
     Operators.SendSubmitRequest,
     Operators.RefreshTaskList,
     Operators.DownloadModel,
@@ -24,6 +25,10 @@ ttt_artStyle = [
 
 # Create value we will use in all of the windows
 def CreateValue():
+
+    # Web url for text to texture
+    bpy.types.Scene.ttt_url = "https://api.meshy.ai/v1/text-to-texture"
+    bpy.types.Scene.task_list = []
 
     # The value we will use in text to texture
     ############################################

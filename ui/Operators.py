@@ -40,7 +40,7 @@ class SendSubmitRequest(bpy.types.Operator):
         headers = {"Authorization": f"Bearer {meshy.get_api_key()}"}
 
         response = requests.post(
-            meshy.tttUrl,
+            bpy.types.Scene.ttt_url,
             files={
                 "model_file": (
                     context.scene.ttt_task_name + ".glb",
@@ -67,16 +67,16 @@ class RefreshTaskList(bpy.types.Operator):
     def refreshOnePage(self, context):
         headers = {"Authorization": f"Bearer {meshy.get_api_key()}"}
 
-        response = requests.get(meshy.tttUrl + "?sortBy=-created_at", headers=headers)
+        response = requests.get(bpy.types.Scene.ttt_url + "?sortBy=-created_at", headers=headers)
 
         response.raise_for_status()
 
         if response.text != "[]":
-            meshy.taskList.append(json.loads(response.text))
+            bpy.types.Scene.task_list.append(json.loads(response.text))
             self.report(type={'INFO'},message="Refreshing completed.")
 
     def execute(self, context):
-        meshy.taskList.clear()
+        bpy.types.Scene.task_list.clear()
         self.refreshOnePage(context)
         return {"FINISHED"}
 
