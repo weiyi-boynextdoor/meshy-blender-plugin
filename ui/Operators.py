@@ -72,11 +72,11 @@ class TTMSendSubmitRequest(bpy.types.Operator):
             self.report(type={'ERROR'},message = "Style prompt can not be empty!")
             return {"FINISHED"}
 
-        postData = {
+        payload = {
             "object_prompt": context.scene.ttm_object_prompt,
             "style_prompt": context.scene.ttm_style_prompt,
             "enable_pbr": context.scene.ttm_enable_PBR,
-            "resolution": context.scene.ttm_resolution,
+            "resolution": str(context.scene.ttm_resolution),
             "negative_prompt": context.scene.ttm_negative_prompt,
             "art_style": context.scene.ttm_art_syle,
             "name": context.scene.ttm_task_name,
@@ -87,7 +87,7 @@ class TTMSendSubmitRequest(bpy.types.Operator):
         response = requests.post(
             meshy.ttm_url,
             headers=headers,
-            data=postData,
+            json=payload,
         )
 
         response.raise_for_status()
@@ -104,7 +104,7 @@ class TTTRefreshTaskList(bpy.types.Operator):
     def refreshOnePage(self, context):
         headers = {"Authorization": f"Bearer {meshy.get_api_key()}"}
 
-        response = requests.get(bpy.types.Scene.ttt_url + "?sortBy=-created_at", headers=headers)
+        response = requests.get(meshy.ttt_url + "?sortBy=-created_at", headers=headers)
 
         response.raise_for_status()
 
@@ -125,7 +125,7 @@ class TTMRefreshTaskList(bpy.types.Operator):
     def refreshOnePage(self, context):
         headers = {"Authorization": f"Bearer {meshy.get_api_key()}"}
 
-        response = requests.get(bpy.types.Scene.ttm_url + "?sortBy=-created_at", headers=headers)
+        response = requests.get(meshy.ttm_url + "?sortBy=-created_at", headers=headers)
 
         response.raise_for_status()
 
