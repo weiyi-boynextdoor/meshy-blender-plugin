@@ -130,6 +130,14 @@ def DeleteValue():
     del bpy.types.Scene.ttt_art_syle
     del bpy.types.Scene.ttt_task_name
 
+    del bpy.types.Scene.ttm_object_prompt
+    del bpy.types.Scene.ttm_style_prompt
+    del bpy.types.Scene.ttm_enable_PBR
+    del bpy.types.Scene.ttm_resolution
+    del bpy.types.Scene.ttm_negative_prompt
+    del bpy.types.Scene.ttm_art_syle
+    del bpy.types.Scene.ttm_task_name
+
 
 # This function will work while we star the plugin
 def register():
