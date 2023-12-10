@@ -9,7 +9,7 @@ from .. import meshy
 
 # Create text to texture GUI
 class MeshyTextToTexture(bpy.types.Panel):
-    bl_idname = "MESHY_TEXT_TO_TEXTURE"
+    bl_idname = "MESHY_PT_TEXT_TO_TEXTURE"
     bl_label = "Text To Texture"
     bl_space_type = "VIEW_3D"
     bl_region_type = "UI"
@@ -31,8 +31,8 @@ class MeshyTextToTexture(bpy.types.Panel):
         column.prop(context.scene, "ttt_task_name", text="")
         column.label(text="Art Style:")
         column.prop(context.scene, "ttt_art_syle", text="")
-        column.operator(Operators.SendSubmitRequest.bl_idname, text="Submit Task")
-        column.operator(Operators.RefreshTaskList.bl_idname, text="Refresh Task List")
+        column.operator(Operators.TTTSendSubmitRequest.bl_idname, text="Submit Task")
+        column.operator(Operators.TTTRefreshTaskList.bl_idname, text="Refresh Task List")
         split = layout.split()
         col = split.column()
         col.label(text="Download")
@@ -91,7 +91,7 @@ class MeshyTextToTexture(bpy.types.Panel):
                     col.label(text=indexB["status"])
 
 class MeshyTextToModel(bpy.types.Panel):
-    bl_idname = "MESHY_TEXT_TO_MODEL"
+    bl_idname = "MESHY_PT_TEXT_TO_MODEL"
     bl_label = "Text To Model"
     bl_space_type = "VIEW_3D"
     bl_region_type = "UI"
@@ -102,19 +102,19 @@ class MeshyTextToModel(bpy.types.Panel):
         layout = self.layout
         column = layout.column()
         column.label(text="Object Prompt:")
-        column.prop(context.scene, "ttt_object_prompt", text="")
+        column.prop(context.scene, "ttm_object_prompt", text="")
         column.label(text="Style Prompt:")
-        column.prop(context.scene, "ttt_style_prompt", text="")
-        column.prop(context.scene, "ttt_enable_original_UV", text="Enable Orginal UV")
-        column.prop(context.scene, "ttt_enable_PBR", text="Enable PBR")
+        column.prop(context.scene, "ttm_style_prompt", text="")
+        column.prop(context.scene, "ttm_enable_PBR", text="Enable PBR")
+        column.prop(context.scene, "ttm_resolution", text="Resolution")
         column.label(text="Negative Prompt:")
-        column.prop(context.scene, "ttt_negative_prompt", text="")
+        column.prop(context.scene, "ttm_negative_prompt", text="")
         column.label(text="Task Name:")
-        column.prop(context.scene, "ttt_task_name", text="")
+        column.prop(context.scene, "ttm_task_name", text="")
         column.label(text="Art Style:")
-        column.prop(context.scene, "ttt_art_syle", text="")
-        column.operator(Operators.SendSubmitRequest.bl_idname, text="Submit Task")
-        column.operator(Operators.RefreshTaskList.bl_idname, text="Refresh Task List")
+        column.prop(context.scene, "ttm_art_syle", text="")
+        column.operator(Operators.TTMSendSubmitRequest.bl_idname, text="Submit Task")
+        column.operator(Operators.TTMRefreshTaskList.bl_idname, text="Refresh Task List")
         split = layout.split()
         col = split.column()
         col.label(text="Download")

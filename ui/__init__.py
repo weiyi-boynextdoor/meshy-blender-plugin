@@ -6,8 +6,10 @@ from . import Operators
 classes = (
     panels.MeshyTextToTexture,
     panels.MeshyTextToModel,
-    Operators.SendSubmitRequest,
-    Operators.RefreshTaskList,
+    Operators.TTTSendSubmitRequest,
+    Operators.TTMSendSubmitRequest,
+    Operators.TTTRefreshTaskList,
+    Operators.TTMRefreshTaskList,
     Operators.DownloadModel,
 )
 
@@ -22,12 +24,9 @@ ttt_artStyle = [
     ("oriental-comic-ink", "Oriental Comic Lnk", ""),
 ]
 
-
 # Create value we will use in all of the windows
 def CreateValue():
 
-    # Web url for text to texture
-    bpy.types.Scene.ttt_url = "https://api.meshy.ai/v1/text-to-texture"
     bpy.types.Scene.task_list = []
 
     # The value we will use in text to texture
@@ -63,6 +62,44 @@ def CreateValue():
     )
 
     bpy.types.Scene.ttt_task_name = bpy.props.StringProperty(
+        name="ttt_task_name",
+        description="text_to_texture_task_name",
+        default="Meshy_model",
+    )
+
+    ############################################
+
+    # The value we will use in text to model
+    ############################################
+    bpy.types.Scene.ttm_object_prompt = bpy.props.StringProperty(
+        name="ttm_object_prompt",
+        description="text_to_texture_object_prompt",
+        default="",
+    )
+
+    bpy.types.Scene.ttm_style_prompt = bpy.props.StringProperty(
+        name="ttm_style_prompt", description="text_to_texture_style_prompt", default=""
+    )
+
+    bpy.types.Scene.ttm_enable_PBR = bpy.props.BoolProperty(
+        name="ttm_enable_PBR", description="text_to_texture_enable_PBR", default=False
+    )
+
+    bpy.types.Scene.ttm_resolution = bpy.props.IntProperty(
+        name="ttm_resolution", description="text_to_texture_resolution", default=1024
+    )
+
+    bpy.types.Scene.ttm_negative_prompt = bpy.props.StringProperty(
+        name="ttm_negative_prompt",
+        description="text_to_texture_negative_prompt",
+        default="",
+    )
+
+    bpy.types.Scene.ttm_art_syle = bpy.props.EnumProperty(
+        items=ttt_artStyle,
+    )
+
+    bpy.types.Scene.ttm_task_name = bpy.props.StringProperty(
         name="ttt_task_name",
         description="text_to_texture_task_name",
         default="Meshy_model",
