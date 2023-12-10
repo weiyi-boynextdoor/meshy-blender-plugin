@@ -8,8 +8,8 @@ bl_info = {
     "location": "View3D",
 }
 
-from . import MeshyPanel
-modules = (MeshyPanel,)
+from . import ui
+modules = (ui,)
 
 
 def register():

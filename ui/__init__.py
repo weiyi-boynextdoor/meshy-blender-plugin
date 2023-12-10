@@ -1,12 +1,13 @@
 import bpy
 from . import MeshyTextToTexture
+from . import Operators
 
 # The classes while will be registered
 classes = (
     MeshyTextToTexture.MeshyTextToTexture,
-    MeshyTextToTexture.SendSubmitRequest,
-    MeshyTextToTexture.RefreshTaskList,
-    MeshyTextToTexture.DownloadModel,
+    Operators.SendSubmitRequest,
+    Operators.RefreshTaskList,
+    Operators.DownloadModel,
 )
 
 # The options of art style for text to texture 
